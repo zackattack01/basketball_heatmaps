@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <img src="{{ asset('images/floor_positions.png') }}" alt="floor_positions" />
+    {{ form_start(productForm) }}
+        {{ form_widget(productForm) }}
+        <button class="btn btn-primary" type="submit" formnovalidate>Generate Heat Map</button>
+    {{ form_end(productForm) }}
+{% endblock body %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+{% endblock %}

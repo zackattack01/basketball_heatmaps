@@ -1,0 +1,22 @@
+body {
+    margin: 20px;
+}
+
+tr:nth-child(even) {
+    background-color: #000000;
+    color: white;
+}
+.form-control, .input-group {
+    width: 60%;
+}
+label { margin-top: 10px; }
+
+td {
+    padding: 10px;
+}
+
+h1 { display: inline-block; }
+
+.nav-button {
+    float:right;
+}
