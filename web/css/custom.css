@@ -3,6 +3,10 @@ html, body, .container, .row {
     font-family: Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
 }
 
+.container-fluid {
+    width: 100%;
+}
+
 div {
     display: inline-block;
 }
@@ -16,14 +20,11 @@ tr:nth-child(even) {
     background-color: #000000;
     color: white;
 }
+
 .form-control, .control-label {
-    max-width: 25%;
     display: inline-block;
 }
 
-.form-control {
-    margin-left: 15%;
-}
 label { margin-top: 10px; }
 
 td {
@@ -41,24 +42,32 @@ h1 { display: inline-block; }
     height: 100%;
     color: white;
     background: black;
-    overflow: auto;
 }
 
-.col-md-4 { padding: 0; }
+.col-titles {
+    width: 100%;
+}
+
+.col-md-3 { padding: 0; }
+
+.auto-overflow {
+    overflow: auto;
+}
 
 .container-fluid {
     padding: 0;
 }
 
-.title-block {
+.image-title-block {
     margin-top: 20px;
     width: inherit;
     text-align: center;
 }
 
-.alert {
+.flash-wrapper {
     display: block;
     margin-top: 10px;
+    text-align: center;
 }
 
 .generate-button {
@@ -79,12 +88,15 @@ h1 { display: inline-block; }
 
 .button-holder {
     display: block;
+    width: 100%;
+}
+
+.button-holder-center {
     text-align: center;
 }
 
 .floor-positions {
     margin-top: 30px;
-    margin-left: 10%;
 }
 
 .last-input, .control-label {
@@ -93,8 +105,18 @@ h1 { display: inline-block; }
 
 .clear { clear: both; }
 
-#heatmapContainer {
+#shotAccuracyHeatmap {
     background-image: url(../images/court_heatmap_template.png);
     width: 853px;
     height: 604px;
+}
+
+#pointEfficiencyHeatmap {
+    background-image: url(../images/court_heatmap_template.png);
+    width: 853px;
+    height: 604px;
+}
+
+.visible-image {
+    overflow: visible !important;
 }

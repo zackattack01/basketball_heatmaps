@@ -6,7 +6,6 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BasketballInputFormType extends AbstractType
 {
@@ -43,10 +42,5 @@ class BasketballInputFormType extends AbstractType
             ->add('attempts14', IntegerType::class, ['label' => false ])
 
         ;
-    }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        parent::configureOptions($resolver);
     }
 }

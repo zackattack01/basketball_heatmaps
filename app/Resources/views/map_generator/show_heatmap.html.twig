@@ -1,12 +1,22 @@
 {% extends 'base.html.twig' %}
 
-
 {% block sidebar %}
-    <a href="/input"><button class="btn btn-primary generate-button"><- Input More Data</button></a>
+    <div class="button-holder">
+        <a href="/input"><button class="btn btn-primary generate-button"><- Input More Data</button></a>
+        <button id="downloadAccuracy" class="btn btn-primary generate-button">Download Shot Accuracy</button>
+        <button id="downloadEfficiency" class="btn btn-primary generate-button">Download Point Efficiency</button>
+    </div>
 {% endblock %}
 {% block body %}
-    <h1>Your Heatmap</h1>
-    <div id="heatmapContainer"></div>
+    <div class="image-title-block">
+        <h1>Shot Accuracy</h1>
+        <div id="shotAccuracyHeatmap"></div>
+    </div>
+
+    <div class="image-title-block">
+        <h1>Point Efficiency</h1>
+        <div id="pointEfficiencyHeatmap"></div>
+    </div>
 {% endblock %}
 
 {% block stylesheets %}
@@ -15,104 +25,110 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
     <script src="{{ asset('js/heatmap.min.js') }}"></script>
+    <script src="{{ asset('js/html2canvas.js') }}"></script>
     <script>
+
+        function downloadURI(uri, name) {
+            var link = document.createElement("a");
+            link.download = name;
+            link.href = uri;
+            link.click();
+            link.remove();
+        }
+
+        function printHeatmapToFile(div, fileName) {
+            html2canvas(div, {
+                onrendered: function (canvas) {
+                    var myImage = canvas.toDataURL("image/png");
+                    downloadURI("data:" + myImage, fileName);
+                },
+                width: 853,
+                height: 604
+            }).then(function (canvas) {
+                $('#body-content').removeClass("visible-image");
+            });
+        }
+
         var accuracyConfig = {
-            container: document.getElementById('heatmapContainer'),
-            radius: 20,
+            container: document.getElementById('shotAccuracyHeatmap'),
+            radius: 50,
             maxOpacity: 1,
-            minOpacity: 0,
-            blur: .0,
+            minOpacity: .2,
+            blur: .5,
             gradient: {
-                // enter n keys between 0 and 1 here
-                // for gradient color customization
-                '.0': 'blue',
-                '.99': 'red'
+                '.0': 'yellow',
+                '.5': 'orange',
+                '1.0': 'red'
             }
         };
 
-        var heatmapInstance = h337.create(accuracyConfig);
-        var dataPoint1 = {
-            x: 426,
-            y: 515,
-            value: {{ accuracyValues['1'] }}
-        };
+        var shotAccuracyHeatmap = h337.create(accuracyConfig);
 
-        var dataPoint2 = {
-            x: 270,
-            y: 525,
-            value: {{ accuracyValues['2'] }}
-        };
+        var accuracyData = [
+            {% for accuracyValue in accuracyValues %}
+                {
+                    x: {{ accuracyValue['xCoord'] }},
+                    y: {{ accuracyValue['yCoord'] }},
+                    value: {{ accuracyValue['value'] }}
+                },
+            {% endfor %}
+        ];
 
-        var dataPoint3 = {
-            x: 426,
-            y: 370,
-            value: {{ accuracyValues['3'] }}
-        };
-
-        var dataPoint4 = {
-            x: 582,
-            y: 525,
-            value: {{ accuracyValues['4'] }}
-        };
-
-        var dataPoint5 = {
-            x: 702,
-            y: 520,
-            value: {{ accuracyValues['5'] }}
-        };
-
-        var dataPoint7 = {
-            x: 426,
-            y: 290,
-            value: {{ accuracyValues['7'] }}
-        };
-
-        var dataPoint9 = {
-            x: 150,
-            y: 520,
-            value: {{ accuracyValues['9'] }}
-        };
-
-        var dataPoint10 = {
-            x: 45,
-            y: 475,
-            value: {{ accuracyValues['10'] }}
-        };
-
-        var dataPoint12 = {
-            x: 426,
-            y: 180,
-            value: {{ accuracyValues['12'] }}
-        };
-
-        var dataPoint14 = {
-            x: 807,
-            y: 475,
-            value: {{ accuracyValues['14'] }}
-        };
-
-
-        console.log({{ accuracyValues['1'] }});
-        heatmapInstance.addData(dataPoint1);
-        var data = {
+        var accuracyDataConfig = {
             max: 1.0,
             min: 0,
-            data: [
-                dataPoint1,
-                dataPoint2,
-                dataPoint3,
-                dataPoint4,
-                dataPoint5,
-                dataPoint7,
-                dataPoint9,
-                dataPoint10,
-                dataPoint12,
-                dataPoint14
-            ]
+            data: accuracyData
         };
-        heatmapInstance.setData(data);
-        heatmapInstance.repaint();
+
+        shotAccuracyHeatmap.setData(accuracyDataConfig);
+
+        $('#downloadAccuracy').click(function(e){
+            e.preventDefault();
+            $('#body-content').addClass("visible-image");
+            printHeatmapToFile(document.getElementById("shotAccuracyHeatmap"), "shot_accuracy.png");
+        });
+
+        var efficiencyConfig = {
+            container: document.getElementById('pointEfficiencyHeatmap'),
+            radius: 50,
+            maxOpacity: 1,
+            minOpacity: .2,
+            blur: .5,
+            gradient: {
+                '.0': 'yellow',
+                '.5': 'orange',
+                '1.0': 'red'
+            }
+        };
+
+        var pointEfficiencyHeatmap = h337.create(efficiencyConfig);
+
+        var efficiencyData = [
+            {% for efficiencyValue in efficiencyValues %}
+            {
+                x: {{ efficiencyValue['xCoord'] }},
+                y: {{ efficiencyValue['yCoord'] }},
+                value: {{ efficiencyValue['value'] }}
+            },
+            {% endfor %}
+        ];
+
+        var efficiencyDataConfig = {
+            max: 3.0,
+            min: 0,
+            data: efficiencyData
+
+        };
+
+        pointEfficiencyHeatmap.setData(efficiencyDataConfig);
+
+        $('#downloadEfficiency').click(function(e){
+            e.preventDefault();
+            $('#body-content').addClass("visible-image");
+            printHeatmapToFile(document.getElementById("pointEfficiencyHeatmap"), "point_efficiency.png");
+        });
     </script>
 
 {% endblock %}

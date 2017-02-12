@@ -1,44 +1,45 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: zacharyolson
- * Date: 2/11/17
- * Time: 7:43 PM
- */
 
 namespace AppBundle\Repositories;
 
 
-use Symfony\Component\HttpFoundation\Session\Session;
-
 class HeatmapRepository
 {
+    // for each position as key, value is [pointValue, xCoord, yCoord]
     const POINTS_MAP = [
-        '1' => 2,
-        '2' => 2,
-        '3' => 2,
-        '4' => 2,
-        '5' => 2,
-        '6' => 2,
-        '7' => 2,
-        '8' => 2,
-        '9' => 2,
-        '10' => 3,
-        '11' => 3,
-        '12' => 3,
-        '13' => 3,
-        '14' => 3,
+        '1' => [2, 426, 515],
+        '2' => [2, 270, 525],
+        '3' => [2, 426, 370],
+        '4' => [2, 582, 525],
+        '5' => [2, 702, 520],
+        '6' => [2, 625, 330],
+        '7' => [2, 426, 290],
+        '8' => [2, 225, 330],
+        '9' => [2, 150, 520],
+        '10' => [3, 45, 475],
+        '11' => [3, 135, 260],
+        '12' => [3, 426, 180],
+        '13' => [3, 715, 260],
+        '14' => [3, 807, 475]
     ];
 
     public function calculateValues($formData)
     {
         $accuracyValues = [];
         $efficiencyValues = [];
-        foreach (self::POINTS_MAP as $position => $pointsPerShot) {
+        foreach (self::POINTS_MAP as $position => $positionInformation) {
             $shotsMade = $formData["makes".$position];
             $shotsAttempted = $formData["attempts".$position];
-            $accuracyValues[$position] = $this->calculateAccuracy($shotsMade, $shotsAttempted);
-            $efficiencyValues[$position] = $this->calculateEfficiency($shotsMade, $pointsPerShot, $shotsAttempted);
+            $accuracyValues[$position] = [
+                'value' => $this->calculateAccuracy($shotsMade, $shotsAttempted),
+                'xCoord' => $positionInformation[1],
+                'yCoord' => $positionInformation[2],
+            ];
+            $efficiencyValues[$position] = [
+                'value' => $this->calculateEfficiency($shotsMade, $positionInformation[0], $shotsAttempted),
+                'xCoord' => $positionInformation[1],
+                'yCoord' => $positionInformation[2]
+            ];
         }
 
         return array(

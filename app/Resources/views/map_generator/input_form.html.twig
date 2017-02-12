@@ -1,17 +1,33 @@
 {% extends 'base.html.twig' %}
 {% macro custom_form_group(makesValue, attemptsValue) %}
-    <div class="form-group">
-        {{ form_label(makesValue) }}
-        {{ form_widget(makesValue, { 'attr': { 'value': random(10) } }) }}
-        {{ form_widget(attemptsValue, { 'attr': { 'class': 'last-input', 'value': 10 } }) }}
-    </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                {{ form_label(makesValue) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_widget(makesValue, { 'attr': { 'value': random(10) } }) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_widget(attemptsValue, { 'attr': { 'class': 'last-input', 'value': 10 } }) }}
+            </div>
+         </div>
 {% endmacro %}
 
 {% import _self as forms %}
 
 {% block sidebar %}
     {{ form_start(heatmapForm) }}
-        <div class="col-titles"><pre>Position  -  Made  -  Attempted</pre></div>
+        <div class="col-titles">
+            <div class="col-md-3">
+                <pre>Position</pre>
+            </div>
+            <div class="col-md-4">
+                <pre>Made</pre>
+            </div>
+            <div class="col-md-3">
+                <pre>Attempted</pre>
+            </div>
+        </div>
         {{ forms.custom_form_group(heatmapForm.makes1, heatmapForm.attempts1) }}
         {{ forms.custom_form_group(heatmapForm.makes2, heatmapForm.attempts2) }}
         {{ forms.custom_form_group(heatmapForm.makes3, heatmapForm.attempts3) }}
@@ -26,20 +42,18 @@
         {{ forms.custom_form_group(heatmapForm.makes12, heatmapForm.attempts12) }}
         {{ forms.custom_form_group(heatmapForm.makes13, heatmapForm.attempts13) }}
         {{ forms.custom_form_group(heatmapForm.makes14, heatmapForm.attempts14) }}
-        <div class="button-holder">
+        <div class="button-holder-center button-holder">
             <button class="btn btn-primary generate-button" type="submit" formnovalidate>Generate Heat Map</button>
         </div>
     {{ form_end(heatmapForm) }}
 {% endblock %}
 {% block body %}
-    <div class="title-block">
+    <div class="image-title-block">
         <h1>Shot Positions</h1>
+        <img class="floor-positions" src="{{ asset('images/floor_positions.png') }}" alt="floor_positions" />
     </div>
-    <img class="floor-positions" src="{{ asset('images/floor_positions.png') }}" alt="floor_positions" />
 {% endblock %}
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 {% endblock %}
-
-{#array('label' => false)#}
