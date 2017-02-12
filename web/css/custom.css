@@ -1,13 +1,28 @@
-body {
-    margin: 20px;
+html, body, .container, .row {
+ height: 100%;
+    font-family: Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+}
+
+div {
+    display: inline-block;
+}
+
+pre {
+    font-size: 16px;
+    color: white;
 }
 
 tr:nth-child(even) {
     background-color: #000000;
     color: white;
 }
-.form-control, .input-group {
-    width: 60%;
+.form-control, .control-label {
+    max-width: 25%;
+    display: inline-block;
+}
+
+.form-control {
+    margin-left: 15%;
 }
 label { margin-top: 10px; }
 
@@ -19,4 +34,67 @@ h1 { display: inline-block; }
 
 .nav-button {
     float:right;
+}
+
+.sidebar-nav {
+    padding: 30px;
+    height: 100%;
+    color: white;
+    background: black;
+    overflow: auto;
+}
+
+.col-md-4 { padding: 0; }
+
+.container-fluid {
+    padding: 0;
+}
+
+.title-block {
+    margin-top: 20px;
+    width: inherit;
+    text-align: center;
+}
+
+.alert {
+    display: block;
+    margin-top: 10px;
+}
+
+.generate-button {
+    background-color: #dfe219;
+    color: black;
+    border: none;
+    font-family: Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    margin-bottom: 30px;
+}
+
+.generate-button:hover {
+    background-color: darkred;
+}
+
+.generate-button:focus {
+    border: none;
+}
+
+.button-holder {
+    display: block;
+    text-align: center;
+}
+
+.floor-positions {
+    margin-top: 30px;
+    margin-left: 10%;
+}
+
+.last-input, .control-label {
+    margin-left: 10%;
+}
+
+.clear { clear: both; }
+
+#heatmapContainer {
+    background-image: url(../images/court_heatmap_template.png);
+    width: 853px;
+    height: 604px;
 }

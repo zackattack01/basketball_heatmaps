@@ -9,7 +9,22 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <ul id="sidebar" class="nav nav-stacked affix sidebar-nav">
+                        {% block sidebar %}{% endblock %}
+                    </ul>
+                </div>
+                <div class="col-md-8">
+                    {% for msg in app.session.flashbag.get('success') %}
+                        <div class="alert alert-success">{{ msg }}</div>
+                    {% endfor %}
+                    {% block body %}{% endblock %}
+                </div>
+            </div>
+        </div>
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>

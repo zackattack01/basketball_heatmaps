@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+
+{% block sidebar %}
+    <a href="/input"><button class="btn btn-primary generate-button"><- Input More Data</button></a>
+{% endblock %}
+{% block body %}
+    <h1>Your Heatmap</h1>
+    <div id="heatmapContainer"></div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/heatmap.min.js') }}"></script>
+    <script>
+        var accuracyConfig = {
+            container: document.getElementById('heatmapContainer'),
+            radius: 20,
+            maxOpacity: 1,
+            minOpacity: 0,
+            blur: .0,
+            gradient: {
+                // enter n keys between 0 and 1 here
+                // for gradient color customization
+                '.0': 'blue',
+                '.99': 'red'
+            }
+        };
+
+        var heatmapInstance = h337.create(accuracyConfig);
+        var dataPoint1 = {
+            x: 426,
+            y: 515,
+            value: {{ accuracyValues['1'] }}
+        };
+
+        var dataPoint2 = {
+            x: 270,
+            y: 525,
+            value: {{ accuracyValues['2'] }}
+        };
+
+        var dataPoint3 = {
+            x: 426,
+            y: 370,
+            value: {{ accuracyValues['3'] }}
+        };
+
+        var dataPoint4 = {
+            x: 582,
+            y: 525,
+            value: {{ accuracyValues['4'] }}
+        };
+
+        var dataPoint5 = {
+            x: 702,
+            y: 520,
+            value: {{ accuracyValues['5'] }}
+        };
+
+        var dataPoint7 = {
+            x: 426,
+            y: 290,
+            value: {{ accuracyValues['7'] }}
+        };
+
+        var dataPoint9 = {
+            x: 150,
+            y: 520,
+            value: {{ accuracyValues['9'] }}
+        };
+
+        var dataPoint10 = {
+            x: 45,
+            y: 475,
+            value: {{ accuracyValues['10'] }}
+        };
+
+        var dataPoint12 = {
+            x: 426,
+            y: 180,
+            value: {{ accuracyValues['12'] }}
+        };
+
+        var dataPoint14 = {
+            x: 807,
+            y: 475,
+            value: {{ accuracyValues['14'] }}
+        };
+
+
+        console.log({{ accuracyValues['1'] }});
+        heatmapInstance.addData(dataPoint1);
+        var data = {
+            max: 1.0,
+            min: 0,
+            data: [
+                dataPoint1,
+                dataPoint2,
+                dataPoint3,
+                dataPoint4,
+                dataPoint5,
+                dataPoint7,
+                dataPoint9,
+                dataPoint10,
+                dataPoint12,
+                dataPoint14
+            ]
+        };
+        heatmapInstance.setData(data);
+        heatmapInstance.repaint();
+    </script>
+
+{% endblock %}

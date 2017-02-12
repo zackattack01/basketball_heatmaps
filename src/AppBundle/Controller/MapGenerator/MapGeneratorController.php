@@ -19,8 +19,30 @@ class MapGeneratorController extends Controller
             BasketballInputFormType::class
         );
 
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $heatmapRepository = $this->container->get('heatmap_repository');
+            list($accuracyValues, $efficiencyValues) = $heatmapRepository->calculateValues($form->getData());
+            $this->addFlash(
+                'success',
+                'Data Accepted.  Generating Heatmap.'
+            );
+            return $this->render('map_generator/show_heatmap.html.twig', array(
+                'accuracyValues' => $accuracyValues,
+                'efficiencyValues' => $efficiencyValues
+            ));
+        }
+
         return $this->render('map_generator/input_form.html.twig', [
-            'productForm' => $form->createView()
+            'heatmapForm' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/show_heatmap", name="show_heatmap")
+     */
+//    public function showHeatmapAction(Request $request)
+//    {
+//        return $this->render('map_generator/show_heatmap.html.twig');
+//    }
 }
