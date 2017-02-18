@@ -9,13 +9,15 @@
 {% endblock %}
 {% block body %}
     <div class="image-title-block">
-        <h1>Shot Accuracy</h1>
-        <div id="shotAccuracyHeatmap"></div>
+        <div id="shotAccuracyHeatmap">
+            <h1 class="export-image-title">Shot Accuracy: {{ 'now'|date('m/d/Y') }}</h1>
+        </div>
     </div>
 
     <div class="image-title-block">
-        <h1>Point Efficiency</h1>
-        <div id="pointEfficiencyHeatmap"></div>
+        <div id="pointEfficiencyHeatmap">
+            <h1 class="export-image-title">Point Efficiency: {{ 'now'|date('m/d/Y') }}</h1>
+        </div>
     </div>
 {% endblock %}
 
@@ -44,7 +46,7 @@
                     var myImage = canvas.toDataURL("image/png");
                     downloadURI("data:" + myImage, fileName);
                 },
-                width: 853,
+                width: 893,
                 height: 604
             }).then(function (canvas) {
                 $('#body-content').removeClass("visible-image");
@@ -53,13 +55,12 @@
 
         var accuracyConfig = {
             container: document.getElementById('shotAccuracyHeatmap'),
-            radius: 50,
-            maxOpacity: 1,
-            minOpacity: .2,
-            blur: .5,
+            radius: 33,
+            opacity: .6,
+            blur: 0.0001,
             gradient: {
-                '.0': 'yellow',
-                '.5': 'orange',
+                '0': 'blue',
+                '.5': 'white',
                 '1.0': 'red'
             }
         };
@@ -92,13 +93,12 @@
 
         var efficiencyConfig = {
             container: document.getElementById('pointEfficiencyHeatmap'),
-            radius: 50,
-            maxOpacity: 1,
-            minOpacity: .2,
-            blur: .5,
+            radius: 33,
+            opacity: .6,
+            blur: .0001,
             gradient: {
-                '.0': 'yellow',
-                '.5': 'orange',
+                '.0': 'blue',
+                '.5': 'white',
                 '1.0': 'red'
             }
         };

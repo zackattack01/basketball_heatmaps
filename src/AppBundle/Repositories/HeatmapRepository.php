@@ -20,7 +20,7 @@ class HeatmapRepository
         '11' => [3, 135, 260],
         '12' => [3, 426, 180],
         '13' => [3, 715, 260],
-        '14' => [3, 807, 475]
+        '14' => [3, 800, 475]
     ];
 
     public function calculateValues($formData)

@@ -95,10 +95,6 @@ h1 { display: inline-block; }
     text-align: center;
 }
 
-.floor-positions {
-    margin-top: 30px;
-}
-
 .last-input, .control-label {
     margin-left: 10%;
 }
@@ -106,17 +102,27 @@ h1 { display: inline-block; }
 .clear { clear: both; }
 
 #shotAccuracyHeatmap {
-    background-image: url(../images/court_heatmap_template.png);
-    width: 853px;
+    background-image: url(../images/shotAccuracyTemplate.png);
+    width: 893px;
     height: 604px;
 }
 
 #pointEfficiencyHeatmap {
-    background-image: url(../images/court_heatmap_template.png);
-    width: 853px;
+    background-image: url(../images/pointEfficiencyTemplate.png);
+    width: 893px;
     height: 604px;
+}
+
+#shotPositionsImg {
+    background-image: url(../images/floor_positions.png);
+    width: 630px;
+    height: 443px;
 }
 
 .visible-image {
     overflow: visible !important;
+}
+
+.export-image-title {
+    padding-top: 15px;
 }
