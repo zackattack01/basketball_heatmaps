@@ -36,15 +36,16 @@
             var link = document.createElement("a");
             link.download = name;
             link.href = uri;
+            document.body.appendChild(link);
             link.click();
-            link.remove();
+            document.body.removeChild(link);
         }
 
         function printHeatmapToFile(div, fileName) {
             html2canvas(div, {
                 onrendered: function (canvas) {
-                    var myImage = canvas.toDataURL("image/png");
-                    downloadURI("data:" + myImage, fileName);
+                    var canvasData = canvas.toDataURL("image/png");
+                    downloadURI('data:' + canvasData, fileName);
                 },
                 width: 893,
                 height: 604
