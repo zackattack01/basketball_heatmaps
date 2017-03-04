@@ -1,32 +1,42 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
         <title>{% block title %}Player Input{% endblock %}</title>
+        <meta charset="UTF-8" />
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <!--[if lte IE 8]><script src={{ asset('js/ie/html5shiv.js') }}></script><![endif]-->
+            <link rel="stylesheet" href={{ asset('css/main.css') }}/>
+            <!--[if lte IE 8]><link rel="stylesheet" href={{  asset('css/ie8.css') }}/><![endif]-->
+            <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
-    <body>
-        <div class="container container-fluid">
-            <div class="row">
-                <div class="{{ sidebarColClass }}">
-                    <ul id="sidebar" class="nav nav-stacked affix sidebar-nav auto-overflow">
-                        {% block sidebar %}{% endblock %}
-                    </ul>
+
+    <body id="top">
+        <div class="group">
+            <header id="header">
+                <div class="inner">
+                    {% block sidebar %}{% endblock %}
                 </div>
-                <div id="body-content" class="{{ bodyColClass }} auto-overflow">
-                    <div class="flash-wrapper">
-                        {% for msg in app.session.flashbag.get('success') %}
-                            <div class="alert alert-success">{{ msg }}</div>
-                        {% endfor %}
-                    </div>
-                    {% block body %}{% endblock %}
-                </div>
+            </header>
+        </div>
+
+        <div id="main">
+            <div class="group">
+                {% block body %}{% endblock %}
             </div>
         </div>
+
+        <script src={{ asset('js/jquery.min.js') }}></script>
+        <script src={{ asset('js/jquery.poptrox.min.js') }}></script>
+        <script src={{ asset('js/skel.min.js') }}></script>
+        <script src={{ asset('js/util.js') }}></script>
+        <!--[if lte IE 8]><script src={{ asset('js/ie/respond.min.js') }}></script><![endif]-->
+        <script src={{ asset('js/main.js') }}></script>
 
         {% block javascripts %}{% endblock %}
     </body>
 </html>
+

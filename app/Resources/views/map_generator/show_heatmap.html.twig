@@ -8,26 +8,28 @@
     </div>
 {% endblock %}
 {% block body %}
-    <div class="image-title-block">
-        <div id="shotAccuracyHeatmap">
-            <h1 class="export-image-title">Shot Accuracy: {{ 'now'|date('m/d/Y') }}</h1>
-        </div>
+    <div class="flash-wrapper">
+        {% for msg in app.session.flashbag.get('success') %}
+            <div class="alert alert-success">{{ msg }}</div>
+        {% endfor %}
     </div>
-
-    <div class="image-title-block">
-        <div id="pointEfficiencyHeatmap">
-            <h1 class="export-image-title">Point Efficiency: {{ 'now'|date('m/d/Y') }}</h1>
+    <section id="one">
+        <div class="image-title-block">
+            <div id="shotAccuracyHeatmap">
+                <h1 class="export-image-title">Shot Accuracy: {{ 'now'|date('m/d/Y') }}</h1>
+            </div>
         </div>
-    </div>
-{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+    </section>
+    <section id="two">
+        <div class="image-title-block">
+            <div id="pointEfficiencyHeatmap">
+                <h1 class="export-image-title">Point Efficiency: {{ 'now'|date('m/d/Y') }}</h1>
+            </div>
+        </div>
+    </section>
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
     <script src="{{ asset('js/heatmap.min.js') }}"></script>
     <script src="{{ asset('js/html2canvas.js') }}"></script>
     <script>

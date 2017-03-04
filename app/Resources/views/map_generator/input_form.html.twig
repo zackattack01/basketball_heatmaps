@@ -16,18 +16,9 @@
 {% import _self as forms %}
 
 {% block sidebar %}
+    <h5>Position - Made - Attempted</h5>
+
     {{ form_start(heatmapForm) }}
-        <div class="col-titles">
-            <div class="col-md-3">
-                <pre>Position</pre>
-            </div>
-            <div class="col-md-4">
-                <pre>Made</pre>
-            </div>
-            <div class="col-md-3">
-                <pre>Attempted</pre>
-            </div>
-        </div>
         {{ forms.custom_form_group(heatmapForm.makes1, heatmapForm.attempts1) }}
         {{ forms.custom_form_group(heatmapForm.makes2, heatmapForm.attempts2) }}
         {{ forms.custom_form_group(heatmapForm.makes3, heatmapForm.attempts3) }}
@@ -48,13 +39,12 @@
     {{ form_end(heatmapForm) }}
 {% endblock %}
 {% block body %}
-    <div class="image-title-block">
-        <div id="shotPositionsImg">
-            <h1>Shot Positions</h1>
+    <section id="one">
+        <div class="image-title-block">
+            <div id="shotPositionsImg">
+                <h1>Shot Positions</h1>
+            </div>
         </div>
-    </div>
+    </section>
 {% endblock %}
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
-{% endblock %}
+
