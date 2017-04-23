@@ -5,12 +5,13 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class BasketballInputFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    {      
         $builder
             ->add('makes1', IntegerType::class, [ 'label' => '1' ])
             ->add('attempts1', IntegerType::class, ['label' => false ])
@@ -40,7 +41,10 @@ class BasketballInputFormType extends AbstractType
             ->add('attempts13', IntegerType::class, ['label' => false ])
             ->add('makes14', IntegerType::class, [ 'label' => '14' ])
             ->add('attempts14', IntegerType::class, ['label' => false ])
-
-        ;
+            ->add('date', DateType::class, array(
+                'data' => date_create(),
+                'label' => 'stats were gathered: ',
+                'widget' => 'single_text'
+            ));
     }
 }

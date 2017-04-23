@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Repositories;
+namespace AppBundle\Repository;
 
 class HeatmapRepository
 {

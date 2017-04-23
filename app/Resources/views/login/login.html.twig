@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <div class="auth-title"><h1>login</h1></div>
+        
+  <div>
+    <form role="form" method="POST" action="{{ path('login_check') }}">
+      {% if error %}
+        <div class="alert alert-danger">
+            <pre>invalid credentials</pre>
+        </div>
+      {% endif %}
+
+      <div class="form-group auth-form">
+        <label for="username">username</label>
+        <input id="username" type="text" class="form-control" name="_username" value="{{ last_username }}">
+      </div>
+
+      <div class="form-group auth-form">
+        <label for="password">password</label>
+        <input id="password" type="password" class="form-control" name="_password">
+      </div>
+
+      <div class="form-group auth-form">
+        <button type="submit" class="btn btn-primary generate-button">log me in!</button>
+      </div>
+    </form>
+  </div>
+
+  <section></section>
+  <div class="auth-options">
+    <p>first time here?</p><a href="/sign_up">sign up! </a><p> or </p><a href="/input"> proceed as guest</a>
+  </div>
+{% endblock %}

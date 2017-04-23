@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <h1>Sign Up</h1>
+  <div class="auth-form">
+    {{ form_start(signupForm) }}
+        {{ form_widget(signupForm) }}
+        <br/><br/>
+        <button class="btn btn-primary generate-button" type="submit" formnovalidate>sign me up!</button>
+    {{ form_end(signupForm) }}
+  </div>
+
+  <section></section>
+  <div class="auth-options">
+    <p>already signed up or don't want to?</p><a href="/login">log in! </a><p> or </p><a href="/input"> proceed as guest</a>
+  </div>
+{% endblock %}

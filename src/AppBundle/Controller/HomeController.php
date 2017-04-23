@@ -6,13 +6,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class DefaultController extends Controller
+class HomeController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/", name="home")
      */
     public function indexAction(Request $request)
     {
-        return $this->redirectToRoute("user_input");
+        if ($this->getUser() != null) {
+          return $this->redirectToRoute('stats_input');
+        } else {
+          return $this->redirectToRoute('login');
+        }
     }
 }

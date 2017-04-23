@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>{% block title %}Player Input{% endblock %}</title>
+        <title>{% block title %}Player Stats Input{% endblock %}</title>
         <meta charset="UTF-8" />
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
@@ -25,6 +25,14 @@
 
         <div id="main">
             <div class="group">
+                <div class="user-settings">
+                    {% if app.user != null %}
+                        <a href="/logout">log out</a>
+                    {% elseif "\login" not in app.request.uri %}
+                        <a href="/login">log in </a> 
+                    {% endif %}
+                </div>
+
                 {% block body %}{% endblock %}
             </div>
         </div>

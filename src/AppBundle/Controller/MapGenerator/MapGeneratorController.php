@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AppBundle\Controller\MapGenerator;
 
 use AppBundle\Form\BasketballInputFormType;
@@ -11,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 class MapGeneratorController extends Controller
 {
     /**
-     * @Route("/input", name="user_input")
+     * @Route("/input", name="stats_input")
      */
     public function inputAction(Request $request)
     {
@@ -27,26 +26,28 @@ class MapGeneratorController extends Controller
                 'success',
                 'Data Accepted.  Generating Heatmap.'
             );
+            
+            $current_user = $this->getUser();
+            if ($current_user != null) {
+                $formDate = $form->getData()['date'];
+                $dataSetRepository = $this->container->get('user_data_set_repository');
+                $dataSetRepository->persistUserDataSet(
+                    $current_user,
+                    $accuracyValues,
+                    $efficiencyValues,
+                    $formDate
+                );
+            }
+
             return $this->render('map_generator/show_heatmap.html.twig', array(
                 'accuracyValues' => $accuracyValues,
-                'efficiencyValues' => $efficiencyValues,
-                'sidebarColClass' => 'col-md-3',
-                'bodyColClass' => 'col-md-9'
+                'efficiencyValues' => $efficiencyValues
             ));
         }
 
         return $this->render('map_generator/input_form.html.twig', [
-            'heatmapForm' => $form->createView(),
-            'sidebarColClass' => 'col-md-5',
-            'bodyColClass' => 'col-md-7'
+            'heatmapForm' => $form->createView()
         ]);
     }
 
-    /**
-     * @Route("/show_heatmap", name="show_heatmap")
-     */
-//    public function showHeatmapAction(Request $request)
-//    {
-//        return $this->render('map_generator/show_heatmap.html.twig');
-//    }
 }

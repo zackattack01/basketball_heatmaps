@@ -33,6 +33,15 @@
         {{ forms.custom_form_group(heatmapForm.makes12, heatmapForm.attempts12) }}
         {{ forms.custom_form_group(heatmapForm.makes13, heatmapForm.attempts13) }}
         {{ forms.custom_form_group(heatmapForm.makes14, heatmapForm.attempts14) }}
+        <div class="form-group">
+            <div>
+                {{ form_label(heatmapForm.date) }}
+            </div>
+            <div>
+                {{ form_widget(heatmapForm.date) }}
+            </div>
+        </div>
+
         <div class="button-holder-center button-holder">
             <button class="btn btn-primary generate-button" type="submit" formnovalidate>Generate Heat Map</button>
         </div>

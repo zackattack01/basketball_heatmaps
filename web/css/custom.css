@@ -97,7 +97,11 @@ h1 {
     text-align: center;
 }
 
-.last-input, .control-label {
+.button-holder-right {
+    text-align: right;
+}
+
+.last-input + .control-label {
     margin-left: 10%;
 }
 
@@ -137,4 +141,35 @@ h1 {
     content: "";
     display: table;
     clear: both;
+}
+
+.auth-form, .auth-title {
+    display: block;
+    margin-left: 0;
+}
+
+.auth-form .form-group {
+    display: block;
+}
+
+.auth-title > h1, h3 {
+    margin: 0;
+}
+
+.auth-options > a, p{
+    display: inline-block;
+    margin: 10px;
+}
+
+.auth-options > p {
+    color: black;
+}
+
+.auth-options > a:hover {
+    color: red;
+}
+
+.user-settings {
+    display: block;
+    text-align: right;
 }
