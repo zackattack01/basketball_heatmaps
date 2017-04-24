@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use AppBundle\Entity\UserDataSet;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -185,7 +186,7 @@ class User implements UserInterface
 
     public function __construct()
     {
-       $this->userDataSets = new \Doctrine\Common\Collection\ArrayCollection();
+       $this->userDataSets = new ArrayCollection();
     }
 
     public function getUserDataSets() {
