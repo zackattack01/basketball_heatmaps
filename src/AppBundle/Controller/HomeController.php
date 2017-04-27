@@ -13,10 +13,6 @@ class HomeController extends Controller
      */
     public function indexAction(Request $request)
     {
-        if ($this->getUser() != null) {
-          return $this->redirectToRoute('stats_input');
-        } else {
-          return $this->redirectToRoute('login');
-        }
+        return $this->redirectToRoute('stats_input');
     }
 }

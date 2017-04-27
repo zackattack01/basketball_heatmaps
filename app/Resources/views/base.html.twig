@@ -28,8 +28,8 @@
                 <div class="user-settings">
                     {% if app.user != null %}
                         <a href="/logout">log out</a>
-                    {% elseif "\login" not in app.request.uri %}
-                        <a href="/login">log in </a> 
+                    {% elseif "\input" in app.request.uri %}
+                        <a href="/login">log in </a> or <a href="/sign_up"> sign up! </a>
                     {% endif %}
                 </div>
 
