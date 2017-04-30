@@ -3,7 +3,6 @@
 {% block body %}
   <div class="flash-wrapper">
     {% for msg in app.session.flashbag %}
-        {{ dump(msg) }}
         <div class="alert alert-success">{{ msg }}</div>
     {% endfor %}
     {% for msg in app.session.flashbag.get('success') %}
