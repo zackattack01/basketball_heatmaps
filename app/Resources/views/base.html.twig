@@ -16,10 +16,13 @@
     </head>
 
     <body id="top">
-        {% if "\login" not in app.request.uri and "\sign_up" not in app.request.uri %}
+        {% if "login" not in app.request.uri and "sign_up" not in app.request.uri %}
             <nav class="navbar navbar-default navbar-fixed-top">
                 <div class="container-fluid">
                     {% if app.user != null %}
+                        {% if app.user.username == "admin" %}
+                            <a href="/add_new_pro_stats"><button class="btn btn-primary theme-button">add new pro data</button></a>
+                        {% endif %}
                         <a href="/logout"><button class="btn btn-primary theme-button">log out</button></a>
                     {% elseif "\input" in app.request.uri %}
                         <a href="/login"><button class="btn btn-primary theme-button">log in </button></a> or <a href="/sign_up"><button class="btn btn-primary theme-button"> sign up! </button></a>

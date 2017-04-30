@@ -2,6 +2,10 @@
 
 namespace AppBundle\Repository;
 
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\CsvEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+
 class HeatmapRepository
 {
     // for each position as key, value is [pointValue, xCoord, yCoord]
@@ -23,11 +27,11 @@ class HeatmapRepository
     ];
 
     const POSITIONS_MAP = [
-        "Point Guards" => ["Steph Curry", "Isaiah Thomas", "Chris Paul", "Mike Conley", "Derrick Rose", "James Harden"],
-        "Shooting Guards" => [],
-        "Small Forwards" => [],
-        "Power Forwards" => [],
-        "Centers" => []
+        1 => 'Point Guard', 
+        2 =>'Shooting Guard',
+        3 => 'Small Forward',
+        4 => 'Power Forward',
+        5 => 'Center'
     ];
 
     public function calculateValues($formData)
@@ -36,7 +40,15 @@ class HeatmapRepository
         $efficiencyValues = [];
         foreach (self::POINTS_MAP as $position => $positionInformation) {
             $shotsMade = $formData["makes".$position];
+            if ($shotsMade == null) {
+                $shotsMade = 0;
+            }
+
             $shotsAttempted = $formData["attempts".$position];
+            if ($shotsAttempted == null) {
+                $shotsAttempted = 10;
+            }
+
             $accuracyValues[$position] = [
                 'value' => $this->calculateAccuracy($shotsMade, $shotsAttempted),
                 'xCoord' => $positionInformation[1],
@@ -55,6 +67,27 @@ class HeatmapRepository
         );
     }
 
+    public function calculateValuesFromCSV($csvFilePath)
+    {   
+        $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
+        $stats = $serializer->decode(str_replace(" ", "", file_get_contents($csvFilePath)), 'csv');
+        $formData = $this->formDataFromCSV($stats);
+
+        return $this->calculateValues($formData);
+    }
+
+    public function formDataFromCSV($stats)
+    {   
+        $tempFormData = array();
+        foreach ($stats as $entry => $dataSet) {
+            $pos = $dataSet["position"];
+            $tempFormData["makes".$pos] = $dataSet["makes"];
+            $tempFormData["attempts".$pos] = $dataSet["attempts"];
+        }
+
+        return $tempFormData;
+    }
+
     public function calculateAccuracy($shotsMade, $shotsAttempted = 10)
     {
         return ($shotsMade / $shotsAttempted);
@@ -66,9 +99,26 @@ class HeatmapRepository
         return ($totalPoints / $shotsAttempted);
     }
 
-    // to be updated once we decide if we want to populate from db
-    public function positionsMap()
+    public function positionsMap($em)
     {
-        return self::POSITIONS_MAP;
+        $pros = $em->createQueryBuilder()
+            ->select('pros.name, pros.position')
+            ->from('AppBundle:Pro', 'pros')
+            ->getQuery()
+            ->getResult();
+
+        $positionsMapValues = array();
+        foreach (self::POSITIONS_MAP as $posId => $posLabel) {
+            $matchedPositions = array_filter($pros, function($proEntry) use($posId) {
+                return $proEntry["position"] == $posId;
+            });
+
+            $positionsMapValues[$posLabel] = array_map(function($proData) {
+                return $proData["name"];
+            }, $matchedPositions);
+        };
+
+        return $positionsMapValues;
     }
+
 }

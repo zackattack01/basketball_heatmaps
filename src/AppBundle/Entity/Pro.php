@@ -2,17 +2,15 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
-use AppBundle\Entity\UserDataSet;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
- * @UniqueEntity(fields="username", message="This username is already in use")
+ * @UniqueEntity(fields="name", message="This name is already being used")
  */
-class User implements UserInterface
+class Pro
 {
     /**
      * @ORM\Id;
@@ -22,29 +20,14 @@ class User implements UserInterface
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    protected $username;
-
-    /**
      * @ORM\Column(type="string", length=40)
      */
     protected $name;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=40)
      */
-    protected $role;
-
-    /**
-     * @Assert\Length(max=4096)
-     */
-    protected $plainPassword;
-
-    /**
-     * @ORM\Column(type="string", length=64)
-     */
-    protected $password;
+    protected $team;
 
     /**
      * @ORM\Column(type="string", length=1)
@@ -69,30 +52,10 @@ class User implements UserInterface
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="UserDataSet", mappedBy="user", fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="ProDataSet", mappedBy="pro", fetch="EAGER")
      * @ORM\OrderBy({"created" = "ASC"})
      **/
-    private $userDataSets;
-
-    public function eraseCredentials()
-    {
-        return null;
-    }
-
-    public function getRole()
-    {
-        return $this->role;
-    }
-
-    public function setRole($role = null)
-    {
-        $this->role = $role;
-    }
-
-    public function getRoles()
-    {
-        return [$this->getRole()];
-    }
+    private $proDataSets;
 
     public function getId()
     {
@@ -109,14 +72,14 @@ class User implements UserInterface
         return $this->name;
     }
 
-    public function getUsername()
+    public function setTeam($team)
     {
-        return $this->username;
+        $this->team = $team;
     }
 
-    public function setUsername($username)
+    public function getTeam()
     {
-        $this->username = $username;
+        return $this->team;
     }
 
     public function setGender($gender)
@@ -159,38 +122,13 @@ class User implements UserInterface
         return $this->position;
     }
 
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    public function setPassword($password)
-    {
-        $this->password = $password;
-    }
-
-    public function getPlainPassword()
-    {
-        return $this->plainPassword;
-    }
-
-    public function setPlainPassword($plainPassword)
-    {
-        $this->plainPassword = $plainPassword;
-    }
-
-    public function getSalt()
-    {
-        return null;
-    }
-
     public function __construct()
     {
-       $this->userDataSets = new ArrayCollection();
+       $this->proDataSets = new ArrayCollection();
     }
 
-    public function getUserDataSets() {
-         return $this->userDataSets;
+    public function getProDataSets() {
+         return $this->proDataSets;
     }
 
 }

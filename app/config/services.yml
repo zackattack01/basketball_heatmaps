@@ -16,3 +16,11 @@ services:
         class: AppBundle\Repository\UserDataSetRepository
         arguments:
           - "@doctrine.orm.entity_manager"
+    pro_data_set_repository:
+        class: AppBundle\Repository\ProDataSetRepository
+        arguments:
+          - "@doctrine.orm.entity_manager"
+    pro_repository:
+        class: AppBundle\Repository\ProRepository
+        arguments:
+          - "@doctrine.orm.entity_manager"

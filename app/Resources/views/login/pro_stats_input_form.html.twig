@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <div class="flash-wrapper">
+    {% for msg in app.session.flashbag %}
+        {{ dump(msg) }}
+        <div class="alert alert-success">{{ msg }}</div>
+    {% endfor %}
+    {% for msg in app.session.flashbag.get('success') %}
+        <div class="alert alert-success">{{ msg }}</div>
+    {% endfor %}
+    {% for msg in app.session.flashbag.get('info') %}
+        <div class="alert alert-info">{{ msg }}</div>
+    {% endfor %}
+    {% for msg in app.session.flashbag.get('error') %}
+        <div class="alert alert-danger">{{ msg }}</div>
+    {% endfor %}
+  </div>
+  <h1>Add New Pro Data</h1>
+  <div class="auth-form">
+    {{ form_start(newProForm) }}
+        {{ form_widget(newProForm) }}
+        <br/><br/>
+        <button class="btn btn-primary theme-button" type="submit" formnovalidate>Add Pro Data</button>
+    {{ form_end(newProForm) }}
+  </div>
+
+  <section></section>
+  <div class="auth-options">
+    <a href="/input"><- back to player input </a>
+  </div>
+{% endblock %}

@@ -6,7 +6,7 @@
 
 {% macro position_heatmap_choices(positionsMap) %}
     {% macro player_heatmap_button(player) %}
-        <a href="/pro_show/{{ player|replace({' ':''}) }}"><button class='btn btn-primary theme-button generate-button'>{{ player }}</button></a></br>
+        <a href="/pro_show/{{ player }}"><button class='btn btn-primary theme-button generate-button'>{{ player }}</button></a></br>
     {% endmacro %}
     {% import _self as pro_show_macros %}
     {% for position, players in positionsMap %}     
@@ -25,23 +25,26 @@
 {% block sidebar %}
     <div class="button-holder">
         <div id="baseGroup">
-            <a id="compareToPros"><button class="btn btn-primary theme-button generate-button">Compare to Pros!</button></a>
+            {% if app.user != null and app.user.username == "admin" %}        
+                <a id="compareToPros"><button class="btn btn-primary theme-button generate-button">Compare to Pros!</button></a>
+            {% endif %}
             <a href="/input"><button class="btn btn-primary theme-button generate-button"><- Input More Data</button></a>
             <button id="downloadAccuracy" class="btn btn-primary theme-button generate-button">Download Shot Accuracy</button>
             <button id="downloadEfficiency" class="btn btn-primary theme-button generate-button">Download Point Efficiency</button>
         </div>
+        {% if app.user != null and app.user.username == "admin" %}        
+            <div id="choosePlayerPositions" style="display:none">
+                <h1 class="sidebar-title">NBA</h1>
+                {% for position, players in positionsMap %}          
+                    {{ positions_show_macros.player_position_choice(position) }}
+                {% endfor %}
+                <button class="back-to-base btn btn-primary theme-button generate-button"><- back to my data</button>
+            </div>
 
-        <div id="choosePlayerPositions" style="display:none">
-            <h1 class="sidebar-title">NBA</h1>
-            {% for position, players in positionsMap %}          
-                {{ positions_show_macros.player_position_choice(position) }}
-            {% endfor %}
-            <button class="back-to-base btn btn-primary theme-button generate-button"><- back to my data</button>
-        </div>
-
-        <div id="choosePlayer" style="display:none">
-            {{ positions_show_macros.position_heatmap_choices(positionsMap) }}
-        </div>
+            <div id="choosePlayer" style="display:none">
+                {{ positions_show_macros.position_heatmap_choices(positionsMap) }}
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
 
@@ -51,12 +54,15 @@
             {% for msg in app.session.flashbag.get('success') %}
                 <div class="alert alert-success">{{ msg }}</div>
             {% endfor %}
+            {% for msg in app.session.flashbag.get('error') %}
+                <div class="alert alert-error">{{ msg }}</div>
+            {% endfor %}
         </div>
         <div class="image-title-block">
             <div id="shotAccuracyHeatmap">
                 <h3 class="export-image-title">Shot Accuracy: {{ 'now'|date('m/d/Y') }}</h3>
-                {% if app.user != null %}
-                    <h1 class="export-image-title">{{ app.user.name }}</h3> 
+                {% if playerName is defined %}
+                    <h1 class="export-image-title">{{ playerName }}</h3> 
                 {% endif %} 
             </div>
         </div>
@@ -65,8 +71,8 @@
         <div class="image-title-block">
             <div id="pointEfficiencyHeatmap">
                 <h3 class="export-image-title">Point Efficiency: {{ 'now'|date('m/d/Y') }}</h3>
-                {% if app.user != null %}
-                    <h1 class="export-image-title">{{ app.user.name }}</h3> 
+                {% if playerName is defined %}
+                    <h1 class="export-image-title">{{ playerName }}</h3> 
                 {% endif %} 
             </div>
         </div>
