@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
     <head>
         <title>{% block title %}Player Stats Input{% endblock %}</title>
@@ -15,6 +16,18 @@
     </head>
 
     <body id="top">
+        {% if "\login" not in app.request.uri and "\sign_up" not in app.request.uri %}
+            <nav class="navbar navbar-default navbar-fixed-top">
+                <div class="container-fluid">
+                    {% if app.user != null %}
+                        <a href="/logout"><button class="btn btn-primary theme-button">log out</button></a>
+                    {% elseif "\input" in app.request.uri %}
+                        <a href="/login"><button class="btn btn-primary theme-button">log in </button></a> or <a href="/sign_up"><button class="btn btn-primary theme-button"> sign up! </button></a>
+                    {% endif %}
+                </div>
+            </nav>
+        {% endif %}
+
         <div class="group">
             <header id="header">
                 <div class="inner">
@@ -24,15 +37,7 @@
         </div>
 
         <div id="main">
-            <div class="group">
-                <div class="user-settings">
-                    {% if app.user != null %}
-                        <a href="/logout">log out</a>
-                    {% elseif "\input" in app.request.uri %}
-                        <a href="/login">log in </a> or <a href="/sign_up"> sign up! </a>
-                    {% endif %}
-                </div>
-
+            <div class="group">         
                 {% block body %}{% endblock %}
             </div>
         </div>
@@ -43,8 +48,7 @@
         <script src={{ asset('js/util.js') }}></script>
         <!--[if lte IE 8]><script src={{ asset('js/ie/respond.min.js') }}></script><![endif]-->
         <script src={{ asset('js/main.js') }}></script>
-
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}{% endblock %}    
     </body>
 </html>
 

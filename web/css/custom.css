@@ -70,16 +70,21 @@ h1 {
     text-align: center;
 }
 
-.generate-button {
+.theme-button {
     background-color: #dfe219;
     color: black;
     border: none;
-    font-family: Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    font-family: Menlo,Monaco,Consolas,"Liberation Mono","Courier New", monospace;
+}
+
+.generate-button {
     margin-bottom: 30px;
 }
 
-.generate-button:hover {
+.theme-button:hover {
     background-color: darkred;
+    color: white;
+    cursor: pointer;
 }
 
 .generate-button:focus {
@@ -172,4 +177,28 @@ h1 {
 .user-settings {
     display: block;
     text-align: right;
+}
+
+.navbar {
+    background-color: black;
+    text-align: right;
+    color: white;
+    vertical-align: center;
+    box-shadow: 0 5px 5px grey;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1;
+}
+
+#header {
+    z-index: 1;
+    box-shadow: 5px 0 5px grey;
+}
+
+.sidebar-title {
+    display: block;
+    font-size: 1.75em !important;
+    color: rgb(214, 210, 210);
+    margin-bottom: 20px !important;
 }

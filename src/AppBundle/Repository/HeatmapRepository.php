@@ -22,6 +22,14 @@ class HeatmapRepository
         '14' => [3, 800, 475]
     ];
 
+    const POSITIONS_MAP = [
+        "Point Guards" => ["Steph Curry", "Isaiah Thomas", "Chris Paul", "Mike Conley", "Derrick Rose", "James Harden"],
+        "Shooting Guards" => [],
+        "Small Forwards" => [],
+        "Power Forwards" => [],
+        "Centers" => []
+    ];
+
     public function calculateValues($formData)
     {
         $accuracyValues = [];
@@ -56,5 +64,11 @@ class HeatmapRepository
     {
         $totalPoints = $shotsMade * $pointsPerShot;
         return ($totalPoints / $shotsAttempted);
+    }
+
+    // to be updated once we decide if we want to populate from db
+    public function positionsMap()
+    {
+        return self::POSITIONS_MAP;
     }
 }

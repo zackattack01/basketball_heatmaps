@@ -41,13 +41,24 @@ class MapGeneratorController extends Controller
 
             return $this->render('map_generator/show_heatmap.html.twig', array(
                 'accuracyValues' => $accuracyValues,
-                'efficiencyValues' => $efficiencyValues
+                'efficiencyValues' => $efficiencyValues,
+                'positionsMap' => $heatmapRepository->positionsMap()
             ));
         }
 
         return $this->render('map_generator/input_form.html.twig', [
             'heatmapForm' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/pro_show/{proName}", name="pro_show")
+     */
+    public function proShowAction($proName)
+    {
+        return $this->render('map_generator/show_heatmap.html.twig', array(
+            
+        ));
     }
 
 }

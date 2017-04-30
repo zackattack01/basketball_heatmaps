@@ -1,35 +1,73 @@
 {% extends 'base.html.twig' %}
 
+{% macro player_position_choice(position) %}
+    <button data-position="{{ position|replace({' ':''}) }}" class="position-group-button btn btn-primary theme-button generate-button">{{ position }}</button></a></br>
+{% endmacro %}
+
+{% macro position_heatmap_choices(positionsMap) %}
+    {% macro player_heatmap_button(player) %}
+        <a href="/pro_show/{{ player|replace({' ':''}) }}"><button class='btn btn-primary theme-button generate-button'>{{ player }}</button></a></br>
+    {% endmacro %}
+    {% import _self as pro_show_macros %}
+    {% for position, players in positionsMap %}     
+        <div id="{{ position|replace({' ':''}) }}" class="player-position-show" style="display:none">
+            <h1 class="sidebar-title">{{ position }}</h1>
+            {% for player in players %}
+                {{ pro_show_macros.player_heatmap_button(player) }}
+            {% endfor %}
+        </div>
+    {% endfor %}
+    <a><button class="back-to-base btn btn-primary theme-button generate-button"><- back to my data</button></a>
+{% endmacro %}
+
+{% import _self as positions_show_macros %}
+    
 {% block sidebar %}
     <div class="button-holder">
-        <a href="/input"><button class="btn btn-primary generate-button"><- Input More Data</button></a>
-        <button id="downloadAccuracy" class="btn btn-primary generate-button">Download Shot Accuracy</button>
-        <button id="downloadEfficiency" class="btn btn-primary generate-button">Download Point Efficiency</button>
+        <div id="baseGroup">
+            <a id="compareToPros"><button class="btn btn-primary theme-button generate-button">Compare to Pros!</button></a>
+            <a href="/input"><button class="btn btn-primary theme-button generate-button"><- Input More Data</button></a>
+            <button id="downloadAccuracy" class="btn btn-primary theme-button generate-button">Download Shot Accuracy</button>
+            <button id="downloadEfficiency" class="btn btn-primary theme-button generate-button">Download Point Efficiency</button>
+        </div>
+
+        <div id="choosePlayerPositions" style="display:none">
+            <h1 class="sidebar-title">NBA</h1>
+            {% for position, players in positionsMap %}          
+                {{ positions_show_macros.player_position_choice(position) }}
+            {% endfor %}
+            <button class="back-to-base btn btn-primary theme-button generate-button"><- back to my data</button>
+        </div>
+
+        <div id="choosePlayer" style="display:none">
+            {{ positions_show_macros.position_heatmap_choices(positionsMap) }}
+        </div>
     </div>
 {% endblock %}
+
 {% block body %}
-    <div class="flash-wrapper">
-        {% for msg in app.session.flashbag.get('success') %}
-            <div class="alert alert-success">{{ msg }}</div>
-        {% endfor %}
-    </div>
     <section id="one">
+        <div class="flash-wrapper">
+            {% for msg in app.session.flashbag.get('success') %}
+                <div class="alert alert-success">{{ msg }}</div>
+            {% endfor %}
+        </div>
         <div class="image-title-block">
             <div id="shotAccuracyHeatmap">
-                {% if app.user != null %}
-                    <h3 class="export-image-title">{{ app.user.name }}</h3> 
-                {% endif %} 
                 <h3 class="export-image-title">Shot Accuracy: {{ 'now'|date('m/d/Y') }}</h3>
+                {% if app.user != null %}
+                    <h1 class="export-image-title">{{ app.user.name }}</h3> 
+                {% endif %} 
             </div>
         </div>
     </section>
     <section id="two">
         <div class="image-title-block">
             <div id="pointEfficiencyHeatmap">
-                {% if app.user != null %}
-                    <h3 class="export-image-title">{{ app.user.name }}</h3> 
-                {% endif %} 
                 <h3 class="export-image-title">Point Efficiency: {{ 'now'|date('m/d/Y') }}</h3>
+                {% if app.user != null %}
+                    <h1 class="export-image-title">{{ app.user.name }}</h3> 
+                {% endif %} 
             </div>
         </div>
     </section>
@@ -39,7 +77,35 @@
     <script src="{{ asset('js/heatmap.min.js') }}"></script>
     <script src="{{ asset('js/html2canvas.js') }}"></script>
     <script>
+        function hideAllPositionChildren() {
+            $(".player-position-show").hide(0);
+        }
 
+        $('#compareToPros').click(function(e){
+            e.preventDefault();
+            $("#baseGroup").hide(0);
+            hideAllPositionChildren();
+            $('#choosePlayer').hide(0);
+            $('#choosePlayerPositions').show(1000);
+        });
+
+        $('.back-to-base').click(function(e){
+            e.preventDefault();
+            $('#choosePlayerPositions').hide(0);
+            hideAllPositionChildren();
+            $('#choosePlayer').hide(0);
+            $("#baseGroup").show(1000);
+        });
+
+        $('.position-group-button').click(function(e){
+            e.preventDefault();
+            hideAllPositionChildren();
+            $('#choosePlayerPositions').hide(0);
+            $("#choosePlayer").show(0);
+            $("#".concat($(e.target).data('position'))).show(1000);
+            
+        });
+            
         function downloadURI(uri, name) {
             var link = document.createElement("a");
             link.download = name;
